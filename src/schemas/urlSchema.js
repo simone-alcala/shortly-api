@@ -6,38 +6,22 @@ const options = {
   stripUnknown: true
 };
 
-export function schemaUrlId(req,res,next){
+export function schemaUrlId(url){
   
-  const url = req.params;
-
   const schema = joi.object({
     id: joi.string().trim().required()
   });
 
-  const validate = schema.validate(url,options);
-  
-  if (validate.error) {
-    return res.status(422).send(validate.error.details.map(detail => detail.message));
-  }  
-
-  next();
+  return schema.validate(url,options);
 
 }
 
-export function schemaUrlBody(req,res,next){
-  
-  const url = req.body;
+export function schemaUrlBody(url){
 
   const schema = joi.object({
     url: joi.string().trim().uri().required()
   });
 
-  const validate = schema.validate(url,options);
-  
-  if (validate.error) {
-    return res.status(422).send(validate.error.details.map(detail => detail.message));
-  }  
-
-  next();
+  return schema.validate(url,options);
 
 }
