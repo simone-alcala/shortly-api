@@ -12,11 +12,9 @@ const db = new Pool({
 if (process.env.MODE === 'PROD') 
   db.ssl= { rejectUnauthorized: false };
 
-console.log('TESTANDO')  ;
-console.log(db)  ;
 
 export default db;*/
-
+/*
 import dotenv from 'dotenv';
 import pkg from 'pg';
 const { Pool } = pkg;
@@ -26,6 +24,25 @@ dotenv.config();
 const databaseConfig = {
   connectionString: process.env.DATABASE_URL,
   ssl: {
+    rejectUnauthorized: false
+  }
+}
+
+const db = new Pool(databaseConfig);
+
+export default db;
+*/
+
+import dotenv from 'dotenv';
+import pkg from 'pg';
+const { Pool } = pkg;
+
+dotenv.config();
+
+const databaseConfig = { connectionString: process.env.DATABASE_URL }
+  
+if (process.env.MODE === 'PROD') {
+  databaseConfig.ssl = {
     rejectUnauthorized: false
   }
 }

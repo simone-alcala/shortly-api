@@ -35,11 +35,11 @@ export async function validateId (req,res,next) {
     
     const result = await db.query(`SELECT * FROM urls WHERE id = $1`,[id]);
 
+    if (result.rowCount === 0) return res.sendStatus(404);
+    
     if (res.locals.session !== undefined) {
       if (result.rows[0]?.userId !== res.locals.session.userId) return res.sendStatus(401);
     }
-
-    if (result.rowCount === 0) return res.sendStatus(404);
 
     res.locals.url = result;
 
