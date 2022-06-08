@@ -12,4 +12,6 @@ const db = new Pool({
 if (process.env.MODE === 'PROD') 
   db.ssl= { rejectUnauthorized: false };
 
+console.log(db)  ;
+
 export default db;
