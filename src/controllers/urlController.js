@@ -52,3 +52,18 @@ export async function deleteUrl(req,res){
     return res.sendStatus(500); 
   }
 }
+
+export async function openUrl(req,res){
+  try {
+
+    const shorUrl = res.locals.shorUrlInfo;
+
+    await db.query(`UPDATE urls SET "visitCount" = "visitCount" + 1 WHERE id = $1`, [shorUrl.id] );
+
+    res.redirect(shorUrl.url) ;
+
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500); 
+  }
+}

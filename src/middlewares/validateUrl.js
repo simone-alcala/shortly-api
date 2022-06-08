@@ -1,5 +1,5 @@
 import db from './../database/connection.js';
-import { schemaUrlId , schemaUrlBody } from './../schemas/urlSchema.js';
+import { schemaUrlId , schemaUrlBody , schemaShortUrl} from './../schemas/urlSchema.js';
 
 export async function validateUrl (req,res,next) {
   
@@ -52,4 +52,31 @@ export async function validateId (req,res,next) {
   }
 
 }
+
+export async function validateShorUrl (req,res,next) {
+  
+  try {
+    
+    const url = req.params;
+    const validate = schemaShortUrl( url );
+
+    if (validate.error) return res.status(422).send(validate.error.details.map(detail => detail.message));
+
+    const shortUrl = await db.query(`SELECT * FROM urls WHERE "shortUrl" = $1`,[url.shortUrl.trim()]);
+
+    if (shortUrl.rowCount === 0) return res.sendStatus(404);
+
+    res.locals.shorUrlInfo = shortUrl.rows[0];
+    
+    next();
+
+  } catch (e){
+
+    console.log(e);
+    return res.sendStatus(500); 
+  }
+
+}
+
+
 

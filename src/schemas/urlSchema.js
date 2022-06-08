@@ -25,3 +25,14 @@ export function schemaUrlBody(url){
   return schema.validate(url,options);
 
 }
+
+
+export function schemaShortUrl(url){
+
+  const schema = joi.object({
+    shortUrl: joi.string().trim().required()
+  });
+
+  return schema.validate(url,options);
+
+}
