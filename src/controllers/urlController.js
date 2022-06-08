@@ -10,7 +10,7 @@ export async function createUrl (req,res){
   try {
     const  url  = req.body;
 
-    const shortUrl = nanoid(10);
+    const shortUrl = nanoid(8);
 
     await db.query(`
       INSERT INTO urls (url, "shortUrl", "userId") VALUES ($1,$2,$3);`,
@@ -28,7 +28,11 @@ export async function createUrl (req,res){
 export async function getUrlById(req,res){
   try {
     
-    res.status(200).send( res.locals.url.rows[0] );
+    const id = res.locals.url.rows[0].id;
+    const shortUrl = res.locals.url.rows[0].shortUrl;
+    const url = res.locals.url.rows[0].url;
+
+    res.status(200).send( {id,shortUrl,url} );
 
    } catch (e){
     console.log(e);
