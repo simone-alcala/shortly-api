@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+/*import dotenv from 'dotenv';
 import pg from 'pg';
 
 const { Pool } = pg;
@@ -14,5 +14,22 @@ if (process.env.MODE === 'PROD')
 
 console.log('TESTANDO')  ;
 console.log(db)  ;
+
+export default db;*/
+
+import dotenv from 'dotenv';
+import pkg from 'pg';
+const { Pool } = pkg;
+
+dotenv.config();
+
+const databaseConfig = {
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+}
+
+const db = new Pool(databaseConfig);
 
 export default db;
